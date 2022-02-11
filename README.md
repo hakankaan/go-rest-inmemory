@@ -1,1 +1,1 @@
-# go-rest-inmemory
+# go-rest-inmemo
