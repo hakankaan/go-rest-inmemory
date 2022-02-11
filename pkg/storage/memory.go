@@ -4,6 +4,7 @@ import (
 	"sync"
 
 	"github.com/hakankaan/go-rest-inmemory/pkg/getting"
+	"github.com/hakankaan/go-rest-inmemory/pkg/setting"
 )
 
 // Memory storage keeps data in memory
@@ -20,9 +21,9 @@ func New() *Storage {
 }
 
 // Set sets the value for given key
-func (m *Storage) Set(k, v string) (err error) {
+func (m *Storage) Set(p setting.Pair) (err error) {
 	m.Lock()
-	m.datas[k] = v
+	m.datas[p.Key] = p.Value
 	m.Unlock()
 
 	return
@@ -31,10 +32,11 @@ func (m *Storage) Set(k, v string) (err error) {
 // Get returns value of given key
 func (m *Storage) Get(k string) (v string, err error) {
 
-	if v, ok := m.datas[k]; ok {
-		return v, nil
+	v, ok := m.datas[k]
+	if !ok {
+		err = getting.ErrNotFound
+		return
 	}
 
-	err = getting.ErrNotFound
 	return
 }
