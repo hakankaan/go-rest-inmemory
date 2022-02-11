@@ -12,6 +12,7 @@ type Storage struct {
 	sync.Mutex
 }
 
+// New is a factory function to generate a new in memory storage
 func New() *Storage {
 	return &Storage{
 		datas: make(map[string]string),
