@@ -20,7 +20,7 @@ const (
 // newApiRoute returns a route with added /api prefix to pattern
 func newApiRoute(method, pattern string, handler http.HandlerFunc) route {
 	apiPattern := fmt.Sprintf("%s%s", apiBase, pattern)
-	return route{method, regexp.MustCompile("^" + apiPattern + "$"), handler}
+	return route{method, regexp.MustCompile("^" + apiPattern + "$"), Logging(handler)}
 }
 
 // route struct for routes
