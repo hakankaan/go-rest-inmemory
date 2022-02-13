@@ -1,6 +1,10 @@
 package getting
 
-import "errors"
+import (
+	"errors"
+
+	"github.com/hakankaan/go-rest-inmemory/pkg/logging"
+)
 
 // ErrNotFound is used when a key could not be found
 var ErrNotFound = errors.New("getting: key not found")
@@ -15,35 +19,21 @@ type Repository interface {
 	Get(k string) (string, error)
 }
 
-// Configuration is an alias for a function that will take in a pointer to an Service and modify it
-type Configuration func(as *service) error
-
 // Service is an implementation of the Service
 type service struct {
 	r Repository
+	l logging.Service
 }
 
 // NewService takes a variable amount of Configuration functions and returns a new Service
 // Each Configuration will be called in the order they are passed in
-func NewService(cfgs ...Configuration) (s *service, err error) {
-	s = &service{}
-
-	for _, cfg := range cfgs {
-		err = cfg(s)
-		if err != nil {
-			return
-		}
+func NewService(r Repository, l logging.Service) (s *service, err error) {
+	s = &service{
+		r: r,
+		l: l,
 	}
 
 	return
-}
-
-// WithRepository applies a given getting repository to the Service
-func WithRepository(r Repository) (cfg Configuration) {
-	return func(ss *service) (err error) {
-		ss.r = r
-		return
-	}
 }
 
 // GetValue gets the value of pair by given key from storage

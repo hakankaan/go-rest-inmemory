@@ -9,6 +9,7 @@ import (
 
 	"github.com/hakankaan/go-rest-inmemory/pkg/flushing"
 	"github.com/hakankaan/go-rest-inmemory/pkg/getting"
+	"github.com/hakankaan/go-rest-inmemory/pkg/logging"
 	"github.com/hakankaan/go-rest-inmemory/pkg/setting"
 )
 
@@ -34,14 +35,16 @@ type restService struct {
 	gettingService  getting.Service
 	settingService  setting.Service
 	flushingService flushing.Service
+	logger          logging.Service
 }
 
 // New creates restService and routelist then uses regex table for routing
-func New(gs getting.Service, ss setting.Service, fs flushing.Service) http.HandlerFunc {
+func New(l logging.Service, gs getting.Service, ss setting.Service, fs flushing.Service) http.HandlerFunc {
 	rest := &restService{
 		gettingService:  gs,
 		settingService:  ss,
 		flushingService: fs,
+		logger:          l,
 	}
 	var routes = []route{
 		newApiRoute(http.MethodPost, "/datas", rest.setValue),

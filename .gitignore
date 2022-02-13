@@ -16,3 +16,6 @@
 
 # Vscode debugging files etc.
 .vscode
+
+# store files 
+store

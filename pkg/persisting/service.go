@@ -8,6 +8,7 @@ import (
 	"path/filepath"
 	"time"
 
+	"github.com/hakankaan/go-rest-inmemory/pkg/logging"
 	"github.com/hakankaan/go-rest-inmemory/pkg/storage"
 )
 
@@ -27,35 +28,21 @@ type Repository interface {
 	GetAll() (storage.KeyValueStore, error)
 }
 
-// Configuration is an alias for a function that will take in a pointer to an Service and modify it
-type Configuration func(as *service) error
-
 // Service is an implementation of the Service
 type service struct {
 	r Repository
+	l logging.Service
 }
 
 // NewService takes a variable amount of Configuration functions and returns a new Service
 // Each Configuration will be called in the order they are passed in
-func NewService(cfgs ...Configuration) (s *service, err error) {
-	s = &service{}
-
-	for _, cfg := range cfgs {
-		err = cfg(s)
-		if err != nil {
-			return
-		}
+func NewService(r Repository, l logging.Service) (s *service, err error) {
+	s = &service{
+		r: r,
+		l: l,
 	}
 
 	return
-}
-
-// WithRepository applies a given setting repository to the Service
-func WithRepository(r Repository) Configuration {
-	return func(ss *service) error {
-		ss.r = r
-		return nil
-	}
 }
 
 // ScheduleWritingToDisk starts a timer to schedule writeToDisk function
@@ -82,22 +69,26 @@ func (s *service) writeToDisk() (err error) {
 	if os.IsNotExist(err) {
 		err = os.Mkdir(p, os.ModePerm)
 		if err != nil {
+			s.l.Error("writeToDisk", err)
 			return
 		}
 	} else {
 		err = s.cleanDisk()
 		if err != nil {
+			s.l.Error("writeToDisk", err)
 			return
 		}
 	}
 
 	allData, err := s.r.GetAll()
 	if err != nil {
+		s.l.Error("writeToDisk", err)
 		return
 	}
 
 	bytes, err := json.Marshal(allData)
 	if err != nil {
+		s.l.Error("writeToDisk", err)
 		return
 	}
 
@@ -106,6 +97,7 @@ func (s *service) writeToDisk() (err error) {
 	fullPath := filepath.Join(p, fileName)
 	err = ioutil.WriteFile(fullPath, bytes, 0755)
 	if err != nil {
+		s.l.Error("writeToDisk", err)
 		return
 	}
 
@@ -118,6 +110,7 @@ func (s *service) cleanDisk() (err error) {
 
 	files, err := ioutil.ReadDir(path)
 	if err != nil {
+		s.l.Error("writeToDisk", err)
 		return
 	}
 
@@ -125,6 +118,7 @@ func (s *service) cleanDisk() (err error) {
 		path := filepath.Join(path, file.Name())
 		err = os.Remove(path)
 		if err != nil {
+			s.l.Error("writeToDisk", err)
 			return
 		}
 	}
