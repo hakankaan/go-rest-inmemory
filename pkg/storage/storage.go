@@ -7,16 +7,18 @@ import (
 	"github.com/hakankaan/go-rest-inmemory/pkg/setting"
 )
 
+type KeyValueStore map[string]string
+
 // Memory storage keeps data in memory
 type Storage struct {
-	datas map[string]string
+	datas KeyValueStore
 	sync.Mutex
 }
 
 // New is a factory function to generate a new in memory storage
 func New() *Storage {
 	return &Storage{
-		datas: make(map[string]string),
+		datas: make(KeyValueStore),
 	}
 }
 
@@ -25,7 +27,7 @@ func (m *Storage) Flush() (err error) {
 	m.Lock()
 	defer m.Unlock()
 
-	m.datas = make(map[string]string)
+	m.datas = make(KeyValueStore)
 
 	return
 }
@@ -43,13 +45,28 @@ func (m *Storage) Set(p setting.Pair) (err error) {
 // Get returns value of given key
 func (m *Storage) Get(k string) (v string, err error) {
 	m.Lock()
+	defer m.Unlock()
 
 	v, ok := m.datas[k]
-	m.Unlock()
 	if !ok {
 		err = getting.ErrNotFound
 		return
 	}
 
 	return
+}
+
+// GetAll returns all datas from storage
+func (m *Storage) GetAll() (list KeyValueStore, err error) {
+	list = m.datas
+
+	return
+}
+
+// SetAll sets all given data as storage.KeyValueStore
+func (m *Storage) SetAll(kvs KeyValueStore) {
+	m.Lock()
+	defer m.Unlock()
+
+	m.datas = kvs
 }

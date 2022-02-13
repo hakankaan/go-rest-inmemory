@@ -34,7 +34,7 @@ func (rs *restService) getValue(w http.ResponseWriter, r *http.Request) {
 		InternalServerErrorResponse(w, err)
 		return
 	}
-	OkResponseWithPair(w, k, v)
+	OkResponseWithValue(w, v)
 }
 
 // setValue returns a handler for POST /data requests
