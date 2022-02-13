@@ -23,7 +23,6 @@ func main() {
 
 	sd, _ := persisting.NewService(s, l)
 	sd.ScheduleWritingToDisk()
-	l.Info("qwewqe", "dddd")
 
 	gs, _ := getting.NewService(s, l)
 	ss, _ := setting.NewService(s, l)

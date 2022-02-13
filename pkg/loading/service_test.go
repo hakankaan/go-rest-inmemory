@@ -1,11 +1,12 @@
-package flushing_test
+package loading_test
 
 import (
 	"fmt"
 	"testing"
 
-	"github.com/hakankaan/go-rest-inmemory/pkg/flushing"
+	"github.com/hakankaan/go-rest-inmemory/pkg/loading"
 	"github.com/hakankaan/go-rest-inmemory/pkg/logging"
+	"github.com/hakankaan/go-rest-inmemory/pkg/persisting"
 	"github.com/hakankaan/go-rest-inmemory/pkg/setting"
 	"github.com/hakankaan/go-rest-inmemory/pkg/storage"
 )
@@ -29,6 +30,9 @@ func setUp() {
 		s.Set(p)
 	}
 
+	ps, _ := persisting.NewService(s, l)
+	ps.WriteToDisk()
+
 	ts = &testService{r: s, l: l}
 
 }
@@ -36,19 +40,22 @@ func setUp() {
 func TestMain(m *testing.M) {
 	setUp()
 	m.Run()
+	tearDown()
 }
 
-func TestFlushDB(t *testing.T) {
-	s, err := flushing.NewService(ts.r, ts.l)
+func tearDown() {
+	ps, _ := persisting.NewService(ts.r, ts.l)
+	ps.CleanDisk()
+}
+
+func TestReadFromDiskIfExists(t *testing.T) {
+	ls, err := loading.NewService(ts.r, ts.l)
 
 	if err != nil {
 		t.Error("flushing service could not initialized")
 	}
 
-	err = s.FlushDB()
-	if err != nil {
-		t.Error(err)
-	}
+	ls.ReadFromDiskIfExists()
 
 	datas, err := ts.r.GetAll()
 	if err != nil {
@@ -58,8 +65,8 @@ func TestFlushDB(t *testing.T) {
 	for i := 1; i <= 10; i++ {
 		k := fmt.Sprintf("Key%d", i)
 		v, ok := datas[k]
-		if ok {
-			t.Error(fmt.Sprintf("expected nil got %s", v))
+		if !ok {
+			t.Error(fmt.Sprintf("expected %s got nil", v))
 		}
 	}
 

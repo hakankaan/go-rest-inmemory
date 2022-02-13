@@ -56,13 +56,13 @@ func (s *service) ScheduleWritingToDisk() {
 
 	go func() {
 		for range ticker.C {
-			s.writeToDisk()
+			s.WriteToDisk()
 		}
 	}()
 }
 
-// writeToDisk writes given storage.KeyValueStore to disk as json
-func (s *service) writeToDisk() (err error) {
+// WriteToDisk writes given storage.KeyValueStore to disk as json
+func (s *service) WriteToDisk() (err error) {
 	p := defaultFilePath
 
 	_, err = os.Stat(p)
@@ -73,7 +73,7 @@ func (s *service) writeToDisk() (err error) {
 			return
 		}
 	} else {
-		err = s.cleanDisk()
+		err = s.CleanDisk()
 		if err != nil {
 			s.l.Error("writeToDisk", err)
 			return
@@ -105,7 +105,7 @@ func (s *service) writeToDisk() (err error) {
 }
 
 // cleanDisk removes json file related to store from disk
-func (s *service) cleanDisk() (err error) {
+func (s *service) CleanDisk() (err error) {
 	path := defaultFilePath
 
 	files, err := ioutil.ReadDir(path)
