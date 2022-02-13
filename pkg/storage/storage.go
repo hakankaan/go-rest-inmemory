@@ -1,4 +1,4 @@
-package memory
+package storage
 
 import (
 	"sync"
@@ -20,19 +20,32 @@ func New() *Storage {
 	}
 }
 
+// Flush flushes the whole db
+func (m *Storage) Flush() (err error) {
+	m.Lock()
+	defer m.Unlock()
+
+	m.datas = make(map[string]string)
+
+	return
+}
+
 // Set sets the value for given key
 func (m *Storage) Set(p setting.Pair) (err error) {
 	m.Lock()
+	defer m.Unlock()
+
 	m.datas[p.Key] = p.Value
-	m.Unlock()
 
 	return
 }
 
 // Get returns value of given key
 func (m *Storage) Get(k string) (v string, err error) {
+	m.Lock()
 
 	v, ok := m.datas[k]
+	m.Unlock()
 	if !ok {
 		err = getting.ErrNotFound
 		return

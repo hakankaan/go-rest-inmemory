@@ -2,7 +2,7 @@ package setting
 
 // Service provides pair adding operations
 type Service interface {
-	AddPair(...Pair) error
+	SetValue(Pair) error
 }
 
 // Repository defines the rules around repository has to be able to perform
@@ -41,13 +41,11 @@ func WithRepository(r Repository) Configuration {
 	}
 }
 
-// AddPair persists the given pair(s) to storage
-func (s *service) AddPair(p ...Pair) (err error) {
-	for _, pp := range p {
-		err = s.r.Set(pp)
-		if err != nil {
-			return
-		}
+// SetValue persists the given pair to storage
+func (s *service) SetValue(p Pair) (err error) {
+	err = s.r.Set(p)
+	if err != nil {
+		return
 	}
 
 	return
