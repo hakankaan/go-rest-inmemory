@@ -1,0 +1,89 @@
+{
+	"info": {
+		"_postman_id": "0d0bf086-754c-4591-91bb-954dcd03c8a2",
+		"name": "Yemeksepeti In Memory",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+	},
+	"item": [
+		{
+			"name": "Get Value by Key",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "go-re-LoadB-1UBJ2FT9GBB8N-4738140c27494764.elb.us-east-1.amazonaws.com:8080/api/datas/isim",
+					"host": [
+						"go-re-LoadB-1UBJ2FT9GBB8N-4738140c27494764",
+						"elb",
+						"us-east-1",
+						"amazonaws",
+						"com"
+					],
+					"port": "8080",
+					"path": [
+						"api",
+						"datas",
+						"isim"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Set a Key",
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n    \"key\": \"isim\",\n    \"value\": \"kaan\"\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "go-re-LoadB-1UBJ2FT9GBB8N-4738140c27494764.elb.us-east-1.amazonaws.com:8080/api/datas",
+					"host": [
+						"go-re-LoadB-1UBJ2FT9GBB8N-4738140c27494764",
+						"elb",
+						"us-east-1",
+						"amazonaws",
+						"com"
+					],
+					"port": "8080",
+					"path": [
+						"api",
+						"datas"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Flush",
+			"request": {
+				"method": "DELETE",
+				"header": [],
+				"url": {
+					"raw": "go-re-LoadB-1UBJ2FT9GBB8N-4738140c27494764.elb.us-east-1.amazonaws.com:8080/api/datas/flush",
+					"host": [
+						"go-re-LoadB-1UBJ2FT9GBB8N-4738140c27494764",
+						"elb",
+						"us-east-1",
+						"amazonaws",
+						"com"
+					],
+					"port": "8080",
+					"path": [
+						"api",
+						"datas",
+						"flush"
+					]
+				}
+			},
+			"response": []
+		}
+	]
+}

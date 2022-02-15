@@ -1,7 +1,7 @@
-version: "3.8"
+version: "3.0"
 services:
   rest-inmemory:
-    build: .
+    image: hakankaan/go-rest-inmemory
     ports:
       - "8080:8080"
     networks:
