@@ -1,0 +1,71 @@
+openapi: 3.0.0
+info:
+  title: Rest in Memory
+  description: Rest api for in memory key value storage
+  contact:
+    email: kaanhakan2005@gmail.com
+  version: 1.0.0
+servers:
+  - url: http://localhost:8080
+    description: Local environment
+  - url: go-re-LoadB-1UBJ2FT9GBB8N-4738140c27494764.elb.us-east-1.amazonaws.com:8080
+    description: Stage environment
+basePath: /api
+tags:
+  - name: go-rest-inmemory
+    description: Rest api for in memory key value storage.
+paths:
+  /datas:
+    post:
+      summary: Creates key value pair
+      operationId: createData
+      tags:
+        - go-rest-inmemory
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                key:
+                  type: string
+                value:
+                  type: string
+      responses:
+        '201':
+          description: Created
+        '400':
+          description: Bad Request
+        '500':
+          description: Internal Server Error
+  /datas/{key}:
+    get:
+      summary: Gets value for key
+      operationId: getData
+      tags:
+        - go-rest-inmemory
+      parameters:
+        - name: key
+          in: path
+          description: key
+          required: true
+          schema:
+            type: string
+      responses:
+        '200':
+          description: OK
+        '404':
+          description: Not Found
+        '500':
+          description: Internal Server Error
+  /datas/flush:
+    delete:
+      summary: Deletes all key value pairs
+      operationId: deleteAllData
+      tags:
+        - go-rest-inmemory
+      responses:
+        '200':
+          description: OK
+        '500':
+          description: Internal Server Error
