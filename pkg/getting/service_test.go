@@ -26,8 +26,10 @@ func setup() {
 		Key:   "Key1",
 		Value: "Val1",
 	}
-	s.Set(p)
-
+	err := s.Set(p)
+	if err != nil {
+		l.Error("s.Set", err)
+	}
 	ts = &testService{r: s, l: l}
 
 }

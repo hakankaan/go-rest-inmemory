@@ -56,7 +56,10 @@ func (s *service) ScheduleWritingToDisk() {
 
 	go func() {
 		for range ticker.C {
-			s.WriteToDisk()
+			err := s.WriteToDisk()
+			if err != nil {
+				s.l.Error("s.WriteToDisk", err)
+			}
 		}
 	}()
 }

@@ -28,11 +28,17 @@ func setup() {
 			Key:   fmt.Sprintf("Key%d", i),
 			Value: fmt.Sprintf("Val%d", i),
 		}
-		s.Set(p)
+		err := s.Set(p)
+		if err != nil {
+			l.Error("s.Set", err)
+		}
 	}
 
 	ps, _ := persisting.NewService(s, l)
-	ps.WriteToDisk()
+	err := ps.WriteToDisk()
+	if err != nil {
+		l.Error("ps.WriteToDisk", err)
+	}
 
 	ts = &testService{r: s, l: l}
 
@@ -51,6 +57,10 @@ func testMain(m *testing.M) int {
 func tearDown() {
 	ps, _ := persisting.NewService(ts.r, ts.l)
 	ps.CleanDisk()
+	err := ps.WriteToDisk()
+	if err != nil {
+		ts.l.Error("ps.WriteToDisk", err)
+	}
 }
 
 func TestReadFromDiskIfExists(t *testing.T) {

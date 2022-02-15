@@ -20,10 +20,10 @@ func (rs *restService) flushDB(w http.ResponseWriter, r *http.Request) {
 	err := rs.flushingService.FlushDB()
 	if err != nil {
 		rs.logger.Error("flushDB", err)
-		InternalServerErrorResponse(w, err)
+		InternalServerErrorResponse(w, rs.logger, err)
 		return
 	}
-	NoContentResponse(w)
+	NoContentResponse(w, rs.logger)
 }
 
 // getValue returns a handler for GET /data requests
@@ -33,10 +33,10 @@ func (rs *restService) getValue(w http.ResponseWriter, r *http.Request) {
 	v, err := rs.gettingService.GetValue(k)
 	if err != nil {
 		rs.logger.Error("getValue", err)
-		InternalServerErrorResponse(w, err)
+		InternalServerErrorResponse(w, rs.logger, err)
 		return
 	}
-	OkResponseWithValue(w, v)
+	OkResponseWithValue(w, rs.logger, v)
 }
 
 // setValue returns a handler for POST /data requests
@@ -46,17 +46,17 @@ func (rs *restService) setValue(w http.ResponseWriter, r *http.Request) {
 	err := json.NewDecoder(r.Body).Decode(&p)
 	if err != nil {
 		rs.logger.Error("setValue", err)
-		InternalServerErrorResponse(w, err)
+		InternalServerErrorResponse(w, rs.logger, err)
 		return
 	}
 
 	err = rs.settingService.SetValue(p)
 	if err != nil {
 		rs.logger.Error("setValue", err)
-		InternalServerErrorResponse(w, err)
+		InternalServerErrorResponse(w, rs.logger, err)
 		return
 	}
 
-	OkResponseWithPair(w, p.Key, p.Value)
+	OkResponseWithPair(w, rs.logger, p.Key, p.Value)
 
 }
