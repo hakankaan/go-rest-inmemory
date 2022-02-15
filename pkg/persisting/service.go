@@ -75,6 +75,7 @@ func (s *service) WriteToDisk() (err error) {
 			s.l.Error("writeToDisk", err)
 			return
 		}
+		s.l.Info("os.Mkdir", "store file has beed created")
 	} else {
 		err = s.CleanDisk()
 		if err != nil {
