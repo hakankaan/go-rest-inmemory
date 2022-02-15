@@ -4,3 +4,13 @@ services:
     build: .
     ports:
       - "8080:8080"
+    networks:
+      - mynet
+    deploy:
+      restart_policy:
+        condition: on-failure
+
+
+networks:
+  mynet:
+    driver: bridge
