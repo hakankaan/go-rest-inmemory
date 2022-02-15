@@ -56,8 +56,11 @@ func testMain(m *testing.M) int {
 
 func tearDown() {
 	ps, _ := persisting.NewService(ts.r, ts.l)
-	ps.CleanDisk()
-	err := ps.WriteToDisk()
+	err := ps.CleanDisk()
+	if err != nil {
+		ts.l.Error("ps.CleanDisk", err)
+	}
+	err = ps.WriteToDisk()
 	if err != nil {
 		ts.l.Error("ps.WriteToDisk", err)
 	}
