@@ -2,6 +2,7 @@ package loading_test
 
 import (
 	"fmt"
+	"os"
 	"testing"
 
 	"github.com/hakankaan/go-rest-inmemory/pkg/loading"
@@ -18,7 +19,7 @@ type testService struct {
 
 var ts *testService
 
-func setUp() {
+func setup() {
 	s := storage.New()
 	l := logging.NewStdoutLogging("DEBUG")
 
@@ -38,9 +39,13 @@ func setUp() {
 }
 
 func TestMain(m *testing.M) {
-	setUp()
-	m.Run()
-	tearDown()
+	os.Exit(testMain(m))
+}
+
+func testMain(m *testing.M) int {
+	setup()
+	defer tearDown()
+	return m.Run()
 }
 
 func tearDown() {

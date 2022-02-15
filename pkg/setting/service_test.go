@@ -2,6 +2,7 @@ package setting_test
 
 import (
 	"fmt"
+	"os"
 	"testing"
 
 	"github.com/hakankaan/go-rest-inmemory/pkg/logging"
@@ -16,17 +17,20 @@ type testService struct {
 
 var ts *testService
 
-func setUp() {
+func setup() {
 	s := storage.New()
 	l := logging.NewStdoutLogging("DEBUG")
 
 	ts = &testService{r: s, l: l}
 
 }
-
 func TestMain(m *testing.M) {
-	setUp()
-	m.Run()
+	os.Exit(testMain(m))
+}
+
+func testMain(m *testing.M) int {
+	setup()
+	return m.Run()
 }
 
 func TestSetValue(t *testing.T) {

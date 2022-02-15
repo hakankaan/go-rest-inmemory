@@ -2,6 +2,7 @@ package flushing_test
 
 import (
 	"fmt"
+	"os"
 	"testing"
 
 	"github.com/hakankaan/go-rest-inmemory/pkg/flushing"
@@ -17,7 +18,7 @@ type testService struct {
 
 var ts *testService
 
-func setUp() {
+func setup() {
 	s := storage.New()
 	l := logging.NewStdoutLogging("DEBUG")
 
@@ -34,8 +35,12 @@ func setUp() {
 }
 
 func TestMain(m *testing.M) {
-	setUp()
-	m.Run()
+	os.Exit(testMain(m))
+}
+
+func testMain(m *testing.M) int {
+	setup()
+	return m.Run()
 }
 
 func TestFlushDB(t *testing.T) {
