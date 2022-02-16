@@ -11,7 +11,7 @@
 				"method": "GET",
 				"header": [],
 				"url": {
-					"raw": "go-re-LoadB-15CG4FV2K1HIE-041a49877baac35f.elb.us-east-1.amazonaws.com:8080/api/datas/isim",
+					"raw": "go-re-LoadB-1TGDOITRSHVHB-88b23d1182a1b292.elb.us-east-1.amazonaws.com/api/datas/isim",
 					"host": [
 						"go-re-LoadB-15CG4FV2K1HIE-041a49877baac35f",
 						"elb",
@@ -44,7 +44,7 @@
 					}
 				},
 				"url": {
-					"raw": "go-re-LoadB-15CG4FV2K1HIE-041a49877baac35f.elb.us-east-1.amazonaws.com:8080/api/datas",
+					"raw": "go-re-LoadB-1TGDOITRSHVHB-88b23d1182a1b292.elb.us-east-1.amazonaws.com/api/datas",
 					"host": [
 						"go-re-LoadB-15CG4FV2K1HIE-041a49877baac35f",
 						"elb",
@@ -67,7 +67,7 @@
 				"method": "DELETE",
 				"header": [],
 				"url": {
-					"raw": "go-re-LoadB-15CG4FV2K1HIE-041a49877baac35f.elb.us-east-1.amazonaws.com:8080/api/datas/flush",
+					"raw": "go-re-LoadB-1TGDOITRSHVHB-88b23d1182a1b292.elb.us-east-1.amazonaws.com/api/datas/flush",
 					"host": [
 						"go-re-LoadB-15CG4FV2K1HIE-041a49877baac35f",
 						"elb",

@@ -4,9 +4,14 @@ services:
     image: hakankaan/go-rest-inmemory
     ports:
       - "8080:8080"
-    deploy:
-      restart_policy:
-        condition: on-failure
+    restart: on-failure
+  nginx:
+    image: hakankaan/nginx-simple
+    restart: unless-stopped
+    ports:
+      - "80:80"
+    depends_on:
+      - "rest-inmemory"
   swagger-ui:
     image: swaggerapi/swagger-ui
     ports:
@@ -16,3 +21,4 @@ services:
     environment:
       API_URL: doc/swagger.yaml
 
+    
