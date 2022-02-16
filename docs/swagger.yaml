@@ -8,8 +8,6 @@ info:
 servers:
   - url: http://localhost:8080/api
     description: Local environment
-  - url: go-re-LoadB-1UBJ2FT9GBB8N-4738140c27494764.elb.us-east-1.amazonaws.com:8080
-    description: Stage environment
 tags:
   - name: go-rest-inmemory
     description: Rest api for in memory key value storage.
@@ -21,6 +19,7 @@ paths:
       tags:
         - go-rest-inmemory
       requestBody:
+        required: true
         content:
           application/json:
             schema:

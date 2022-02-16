@@ -17,10 +17,6 @@ type ResponseWithKeyValue struct {
 	BaseResponse
 }
 
-type ResponseWithValue struct {
-	Value string `json:"value"`
-	BaseResponse
-}
 
 type ResponseWithMsg struct {
 	Msg string `json:"message"`
@@ -60,7 +56,8 @@ func OkResponseWithPair(w http.ResponseWriter, l logging.Service, k, v string) {
 // OkResponseWithValue returns a response for successful request
 // returns with error code = 200
 func OkResponseWithValue(w http.ResponseWriter, l logging.Service, v string) {
-	r := ResponseWithValue{
+	r := ResponseWithKeyValue{
+		Key:   k,
 		Value: v,
 		BaseResponse: BaseResponse{
 			Success: "true",

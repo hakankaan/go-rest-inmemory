@@ -60,7 +60,9 @@ func New(l logging.Service, gs getting.Service, ss setting.Service, fs flushing.
 					allow = append(allow, route.method)
 					continue
 				}
-
+				w.Header().Set("Access-Control-Allow-Origin", "*")
+				w.Header().Set("Access-Control-Allow-Methods", "POST, GET, OPTIONS, PUT, DELETE")
+				w.Header().Set("Access-Control-Allow-Headers", "Accept, Content-Type, Content-Length, Accept-Encoding, X-CSRF-Token, Authorization")
 				w.Header().Set("Content-Type", "application/json")
 				ctx := context.WithValue(r.Context(), ctxKey{}, matches[1:])
 				route.handler(w, r.WithContext(ctx))
