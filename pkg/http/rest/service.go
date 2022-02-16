@@ -48,7 +48,7 @@ func New(l logging.Service, gs getting.Service, ss setting.Service, fs flushing.
 	}
 	var routes = []route{
 		newApiRoute(http.MethodPost, "/datas", rest.setValue),
-		newApiRoute(http.MethodDelete, "/datas/flush", rest.flushDB),
+		newApiRoute(http.MethodDelete, "/datas", rest.flushDB),
 		newApiRoute(http.MethodGet, "/datas/([^/]+)", rest.getValue),
 	}
 	return func(w http.ResponseWriter, r *http.Request) {

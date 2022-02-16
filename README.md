@@ -23,5 +23,5 @@ Creates key-value pair with given request body below
 - key: string
 - value: string
 
-**DELETE /api/datas/flush**
+**DELETE /api/datas**
 Flushes in-memory store
