@@ -14,5 +14,5 @@ services:
     volumes:
       - ./docs:/usr/share/nginx/html/doc
     environment:
-      API_URL: docs/swagger.yaml
+      API_URL: doc/swagger.yaml
 
