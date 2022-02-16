@@ -15,7 +15,8 @@ In the main directory:
 - When the application stops and stands up again, if there is a saved file, reload existing data into memory
 
 ### Endpoints 📍
-Live: go-re-LoadB-1TGDOITRSHVHB-88b23d1182a1b292.elb.us-east-1.amazonaws.com
+**Live:** go-re-LoadB-1TGDOITRSHVHB-88b23d1182a1b292.elb.us-east-1.amazonaws.com
+
 **GET /api/datas/{key}**
 Returns value of given key
 
