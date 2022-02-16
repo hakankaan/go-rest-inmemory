@@ -17,7 +17,6 @@ type ResponseWithKeyValue struct {
 	BaseResponse
 }
 
-
 type ResponseWithMsg struct {
 	Msg string `json:"message"`
 	BaseResponse
@@ -37,25 +36,6 @@ func InternalServerErrorResponse(w http.ResponseWriter, l logging.Service, err e
 // OkResponseWithPair returns a response for successful request
 // returns with error code = 200
 func OkResponseWithPair(w http.ResponseWriter, l logging.Service, k, v string) {
-	r := ResponseWithKeyValue{
-		Key:   k,
-		Value: v,
-		BaseResponse: BaseResponse{
-			Success: "true",
-		},
-	}
-	// r := fmt.Sprintf("%s=%s", k, v)
-	err := json.NewEncoder(w).Encode(r)
-	if err != nil {
-		l.Error("json.Encoder.Encode", err)
-		return
-	}
-	w.WriteHeader(http.StatusOK)
-}
-
-// OkResponseWithValue returns a response for successful request
-// returns with error code = 200
-func OkResponseWithValue(w http.ResponseWriter, l logging.Service, v string) {
 	r := ResponseWithKeyValue{
 		Key:   k,
 		Value: v,
