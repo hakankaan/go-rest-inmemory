@@ -20,3 +20,5 @@
 # store files 
 store
 aws
+
+junit.xml
